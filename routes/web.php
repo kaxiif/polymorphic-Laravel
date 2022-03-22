@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Staff;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,34 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+
+Route::get('/create',function(){
+
+    $staff = Staff::find(1);
+    $staff->photos()->create(['path'=>'exp.png']);
+});
+
+
+Route::get('/read',function(){
+    $staff = Staff::findOrFail(1);
+    foreach($staff->photos as $photo){
+        return $photo->path;
+    }
+
+});
+
+Route::get('/update', function(){
+    $staff = Staff::findOrFail(1);
+    $photo=$staff->photos()->whereId(1)->first();
+    $photo->path="updated_exp_path.png";
+    $photo->save();
+
+});
+
+Route::get('/delete', function(){
+    $staff=Staff::findOrFail(1);
+    $staff->photos()->whereId(1)->delete();
+
 });
