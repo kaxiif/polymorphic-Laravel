@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Photo;
 use App\Models\Staff;
 use Illuminate\Support\Facades\Route;
 
@@ -45,5 +46,25 @@ Route::get('/update', function(){
 Route::get('/delete', function(){
     $staff=Staff::findOrFail(1);
     $staff->photos()->whereId(1)->delete();
+
+});
+
+
+Route::get('/assign', function(){
+    $staff = Staff::findOrFail(1);
+
+    $photo = Photo::findOrFail(5);
+
+    $staff->photos()->save($photo);
+
+});
+
+
+Route::get('/un-assign', function(){
+    $staff = Staff::findOrFail(1);
+
+    
+
+    $staff->photos()->whereId(5)->update(['imageable_id'=>0, 'imageable_type'=>'']);
 
 });
